@@ -4,18 +4,32 @@ import (
 	"context"
 	"testing"
 
+	"github.com/google/uuid"
 	"github.com/valyala/bytebufferpool"
 )
 
-func BenchmarkMailTo(b *testing.B) {
+func BenchmarkMailToStatic(b *testing.B) {
 	b.ReportAllocs()
-
 	ctx := context.Background()
 	buf := bytebufferpool.Get()
 	defer bytebufferpool.Put(buf)
+
+	page := MailTo("myemail")
 	for i := 0; i < b.N; i++ {
 		buf.Reset()
-		MailTo().Render(ctx, buf)
+		page.Render(ctx, buf)
+	}
+}
+
+func BenchmarkMailToDynamic(b *testing.B) {
+	b.ReportAllocs()
+	ctx := context.Background()
+	buf := bytebufferpool.Get()
+	defer bytebufferpool.Put(buf)
+
+	for i := 0; i < b.N; i++ {
+		buf.Reset()
+		MailTo(uuid.NewString()).Render(ctx, buf)
 	}
 }
 

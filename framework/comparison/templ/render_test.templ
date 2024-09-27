@@ -1,11 +1,11 @@
 package rendertest
 
-templ MailTo() {
+templ MailTo(email string) {
 	<div>
 		<h1>Contact Us</h1>
 		<div style="font-family: 'sans-serif'" id="test" data-contents='something with "quotes" and a <tag>'>
 			<div>email:</div>
-			<a href="mailto:test@htmgo.dev">Email me</a>
+			<a href={ templ.SafeURL("mailto:" + email) }>Email me</a>
 		</div>
 		<hr noshade/>
 		<hr noshade optionA optionB optionC="other"/>
