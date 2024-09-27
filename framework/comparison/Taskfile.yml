@@ -1,0 +1,39 @@
+# https://taskfile.dev
+
+version: "3"
+
+interval: 250ms
+
+vars:
+  NAME: "dronegame"
+  BIN_NAME: "{{.NAME}}_bin"
+
+tasks:
+  tools:
+    cmds:
+      - go install github.com/go-task/task/v3/cmd/task@latest
+      - go install github.com/a-h/templ/cmd/templ@latest
+      - go get -u github.com/valyala/quicktemplate
+      - go install github.com/valyala/quicktemplate/qtc
+
+  templ:
+    env:
+      TEMPL_EXPERIMENT: rawgo
+    generates:
+      - "**/*_templ.go"
+    sources:
+      - "**/*.templ"
+    cmds:
+      - templ generate .
+
+  css:
+    dir: web/css
+    generates:
+      - "../static/css/site.css"
+    sources:
+      - "../**/*.md"
+      - "../**/*.go"
+      - "../**/*.templ"
+    cmds:
+      - pnpm i
+      - pnpm tailwindcss build -o ../static/css/site.css -w

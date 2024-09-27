@@ -3,9 +3,11 @@ module github.com/maddalax/htmgo/framework
 go 1.23.0
 
 require (
+	github.com/a-h/templ v0.2.778
 	github.com/go-chi/chi/v5 v5.1.0
 	github.com/google/uuid v1.6.0
 	github.com/stretchr/testify v1.9.0
+	github.com/valyala/bytebufferpool v1.0.0
 	golang.org/x/net v0.29.0
 )
 
