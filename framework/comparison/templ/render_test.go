@@ -27,9 +27,14 @@ func BenchmarkMailToDynamic(b *testing.B) {
 	buf := bytebufferpool.Get()
 	defer bytebufferpool.Put(buf)
 
+	uuids := make([]string, b.N)
+	for i := 0; i < b.N; i++ {
+		uuids[i] = uuid.NewString()
+	}
+
 	for i := 0; i < b.N; i++ {
 		buf.Reset()
-		MailTo(uuid.NewString()).Render(ctx, buf)
+		MailTo(uuids[i]).Render(ctx, buf)
 	}
 }
 
